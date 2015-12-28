@@ -92,13 +92,12 @@ class Webhook
 
     /**
      * @param Request $request
-     * @param string $secret
      * @return bool
      */
-    public function isValidRequest(Request $request, $secret)
+    public function isValidRequest(Request $request)
     {
         try {
-            $valid = $this->checkSecurity($request, $secret);
+            $valid = $this->checkSecurity($request);
         } catch (\Exception $e) {
             return false;
         }
@@ -144,10 +143,10 @@ class Webhook
         $this->eventName = $this->payload = null;
 
         // Extract Gitlab headers from request.
-        $event = (string)$request->headers->get('X-Gitlab-Event');
-        $payload = (string)$request->getContent();
+        $event = (string) $request->headers->get('X-Gitlab-Event');
+        $payload = (string) $request->getContent();
 
-        if (!isset($event)) {
+        if (empty($event)) {
             throw new \InvalidArgumentException('Missing Gitlab headers.');
         }
 
