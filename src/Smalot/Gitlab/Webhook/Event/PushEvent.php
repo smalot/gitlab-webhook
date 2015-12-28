@@ -43,6 +43,22 @@ class PushEvent extends EventBase
     }
 
     /**
+     * @return string
+     */
+    public function getCheckoutSha()
+    {
+        return $this->payload['checkout_sha'];
+    }
+
+    /**
+     * @return string
+     */
+    public function getMessage()
+    {
+        return $this->payload['message'];
+    }
+
+    /**
      * @return int
      */
     public function getUserId()
