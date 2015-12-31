@@ -51,4 +51,12 @@ abstract class EventBase extends Event
     {
         return $this->payload['object_kind'];
     }
+
+    /**
+     * @return array
+     */
+    public function __sleep()
+    {
+        return array_diff(array_keys(get_object_vars($this)), array('dispatcher'));
+    }
 }
