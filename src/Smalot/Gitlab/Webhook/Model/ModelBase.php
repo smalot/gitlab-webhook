@@ -6,7 +6,7 @@ namespace Smalot\Gitlab\Webhook\Model;
  * Class ModelBase
  * @package Smalot\Gitlab\Webhook\Model
  */
-class ModelBase
+abstract class ModelBase
 {
     /**
      * @var array
@@ -20,6 +20,24 @@ class ModelBase
     public function __construct($payload)
     {
         $this->payload = $payload;
+    }
+
+    /**
+     * @return array
+     */
+    public function export()
+    {
+        return array(
+            'payload' => $this->payload,
+        );
+    }
+
+    /**
+     * @param array $data
+     */
+    public function import($data)
+    {
+        $this->payload = $data['payload'];
     }
 
     /**

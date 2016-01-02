@@ -50,7 +50,7 @@ abstract class EventBase extends Event
     }
 
     /**
-     * @return array
+     * @return string
      */
     public function getPayload()
     {
