@@ -2,6 +2,8 @@
 
 namespace Smalot\Gitlab\Webhook\Event;
 
+use Smalot\Gitlab\Webhook\Model\IssueModel;
+
 /**
  * Class IssueEvent
  * @package Smalot\Gitlab\Webhook\Event
@@ -13,32 +15,16 @@ class IssueEvent extends EventBase
     /**
      * @return string
      */
-    public function getEventName()
+    protected function getClassModel()
     {
-        return 'issue';
+        return '\Smalot\Gitlab\Webhook\Model\IssueModel';
     }
 
     /**
-     * @return array
+     * @return IssueModel
      */
-    public function getUser()
+    public function getData()
     {
-        return $this->payload['user'];
-    }
-
-    /**
-     * @return array
-     */
-    public function getRepository()
-    {
-        return $this->payload['repository'];
-    }
-
-    /**
-     * @return array
-     */
-    public function getObjectAttributes()
-    {
-        return $this->payload['object_attributes'];
+        return $this->model;
     }
 }

@@ -2,6 +2,8 @@
 
 namespace Smalot\Gitlab\Webhook\Event;
 
+use Smalot\Gitlab\Webhook\Model\MergeRequestModel;
+
 /**
  * Class MergeRequestEvent
  * @package Smalot\Gitlab\Webhook\Event
@@ -14,24 +16,16 @@ class MergeRequestEvent extends EventBase
     /**
      * @return string
      */
-    public function getEventName()
+    protected function getClassModel()
     {
-        return 'merge_request';
+        return '\Smalot\Gitlab\Webhook\Model\MergeRequestModel';
     }
 
     /**
-     * @return array
+     * @return MergeRequestModel
      */
-    public function getUser()
+    public function getData()
     {
-        return $this->payload['user'];
-    }
-
-    /**
-     * @return array
-     */
-    public function getObjectAttributes()
-    {
-        return $this->payload['object_attributes'];
+        return $this->model;
     }
 }

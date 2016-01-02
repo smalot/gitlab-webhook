@@ -2,6 +2,8 @@
 
 namespace Smalot\Gitlab\Webhook\Event;
 
+use Smalot\Gitlab\Webhook\Model\NoteModel;
+
 /**
  * Class NoteEvent
  * @package Smalot\Gitlab\Webhook\Event
@@ -19,75 +21,19 @@ namespace Smalot\Gitlab\Webhook\Event;
  */
 class NoteEvent extends EventBase
 {
-    const TYPE_COMMIT = 'Commit';
-    const TYPE_MERGE_REQUEST = 'MergeRequest';
-    const TYPE_ISSUE = 'Issue';
-    const TYPE_SNIPPET = ' Snippet';
-
     /**
      * @return string
      */
-    public function getEventName()
+    protected function getClassModel()
     {
-        return 'note';
+        return '\Smalot\Gitlab\Webhook\Model\NoteModel';
     }
 
     /**
-     * @return array
+     * @return NoteModel
      */
-    public function getUser()
+    public function getData()
     {
-        return $this->payload['user'];
-    }
-
-    /**
-     * @return int
-     */
-    public function getProjectId()
-    {
-        return $this->payload['project_id'];
-    }
-
-    /**
-     * @return array
-     */
-    public function getRepository()
-    {
-        return $this->payload['repository'];
-    }
-
-    /**
-     * @return array
-     */
-    public function getObjectAttributes()
-    {
-        return $this->payload['object_attributes'];
-    }
-
-    /**
-     * @return string
-     */
-    public function getNoteableType()
-    {
-        return $this->payload['object_attributes']['noteable_type'];
-    }
-
-    /**
-     * @return array|null
-     */
-    public function getTargetObject()
-    {
-        switch ($this->getNoteableType()) {
-            case self::TYPE_COMMIT:
-                return $this->payload['commit'];
-            case self::TYPE_MERGE_REQUEST:
-                return $this->payload['merge_request'];
-            case self::TYPE_ISSUE:
-                return $this->payload['issue'];
-            case self::TYPE_SNIPPET:
-                return $this->payload['snippet'];
-        }
-
-        return null;
+        return $this->model;
     }
 }

@@ -2,6 +2,8 @@
 
 namespace Smalot\Gitlab\Webhook\Event;
 
+use Smalot\Gitlab\Webhook\Model\TagPushModel;
+
 /**
  * Class TagPushEvent
  * @package Smalot\Gitlab\Webhook\Event
@@ -13,80 +15,16 @@ class TagPushEvent extends EventBase
     /**
      * @return string
      */
-    public function getEventName()
+    protected function getClassModel()
     {
-        return 'tag_push';
+        return '\Smalot\Gitlab\Webhook\Model\TagPushModel';
     }
 
     /**
-     * @return string
+     * @return TagPushModel
      */
-    public function getRef()
+    public function getData()
     {
-        return $this->payload['ref'];
-    }
-
-    /**
-     * @return string
-     */
-    public function getBefore()
-    {
-        return $this->payload['before'];
-    }
-
-    /**
-     * @return string
-     */
-    public function getAfter()
-    {
-        return $this->payload['after'];
-    }
-
-    /**
-     * @return int
-     */
-    public function getUserId()
-    {
-        return $this->payload['user_id'];
-    }
-
-    /**
-     * @return string
-     */
-    public function getUserName()
-    {
-        return $this->payload['user_name'];
-    }
-
-    /**
-     * @return int
-     */
-    public function getProjectId()
-    {
-        return $this->payload['project_id'];
-    }
-
-    /**
-     * @return array
-     */
-    public function getRepository()
-    {
-        return $this->payload['repository'];
-    }
-
-    /**
-     * @return array
-     */
-    public function getCommits()
-    {
-        return $this->payload['commits'];
-    }
-
-    /**
-     * @return int
-     */
-    public function getTotalCommitsCount()
-    {
-        return $this->payload['total_commits_count'];
+        return $this->model;
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Smalot\Gitlab\Webhook\Event;
 
+use Smalot\Gitlab\Webhook\Model\ModelBase;
 use Symfony\Component\EventDispatcher\Event;
 
 /**
@@ -16,9 +17,14 @@ abstract class EventBase extends Event
     protected $eventName;
 
     /**
-     * @var array
+     * @var string
      */
     protected $payload;
+
+    /**
+     * @var ModelBase
+     */
+    protected $model;
 
     /**
      * EventBase constructor.
@@ -28,13 +34,20 @@ abstract class EventBase extends Event
     public function __construct($eventName, $payload)
     {
         $this->eventName = $eventName;
-        $this->payload = (array) json_decode($payload, true);
+        $this->payload = $payload;
+
+        $payload = json_decode($this->payload, true);
+        $className = $this->getClassModel();
+        $this->model = new $className($payload);
     }
 
     /**
      * @return string
      */
-    abstract public function getEventName();
+    public function getEventName()
+    {
+        return $this->eventName;
+    }
 
     /**
      * @return array
@@ -45,18 +58,15 @@ abstract class EventBase extends Event
     }
 
     /**
-     * @return string
+     * @return ModelBase
      */
-    public function getObjectKind()
+    public function getModel()
     {
-        return $this->payload['object_kind'];
+        return $this->model;
     }
 
     /**
-     * @return array
+     * @return string
      */
-    public function __sleep()
-    {
-        return array_diff(array_keys(get_object_vars($this)), array('dispatcher'));
-    }
+    abstract protected function getClassModel();
 }
